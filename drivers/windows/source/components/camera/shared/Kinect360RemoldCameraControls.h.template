@@ -1,0 +1,106 @@
+#pragma once
+#include <windows.h>
+#include <atomic>
+#include <cstdint>
+
+namespace Kinect360RemoldCameraControls {
+// {A6D58E44-2C21-4C75-A352-0D65B4A07691}
+inline constexpr GUID kPropertySet =
+{0xa6d58e44,0x2c21,0x4c75,{0xa3,0x52,0x0d,0x65,0xb4,0xa0,0x76,0x91}};
+
+enum class PropertyId : uint32_t {
+    AutoFraming = 0,
+    FaceTracking = 1,
+    TrackingSpeed = 2,
+    DeadZonePercent = 3,
+    TargetMode = 4,
+    LedMode = 5,
+    AutoCenter = 6,
+    DigitalZoomLimitPercent = 7,
+    FaceCount = 8,
+    AccelerometerX = 9,
+    AccelerometerY = 10,
+    AccelerometerZ = 11,
+    MotorTransport = 12,
+    EngineOnline = 13,
+    LastControlHresult = 14,
+    TiltStabilization = 15,
+    StabilizationStrength = 16,
+    StabilizationCorrectionTenths = 17,
+    End = 18,
+};
+
+enum class TargetMode : LONG {
+    LargestFace = 0,
+    CenterFace = 1,
+    Group = 2,
+};
+
+
+enum class LedMode : LONG {
+    Auto = 0,
+    Off = 1,
+    Green = 2,
+    Red = 3,
+};
+
+#pragma pack(push, 1)
+struct PropertyPayload {
+    uint32_t version = 1;
+    int32_t value = 0;
+    int32_t minimum = 0;
+    int32_t maximum = 0;
+    int32_t step = 1;
+    uint32_t flags = 0; // bit0 writable, bit1 automatic/currently auto
+};
+#pragma pack(pop)
+static_assert(sizeof(PropertyPayload) == 24, "Remold camera control ABI");
+
+struct State {
+    // Standard PTZ view. Pan and zoom are digital. Tilt is physical when the
+    // NUI transport is available. Values remain meaningful when hardware is
+    // temporarily unavailable so camera applications do not lose settings.
+    std::atomic<LONG> panDegrees{0};
+    std::atomic<LONG> tiltDegrees{__REMOLD_STARTUP_TILT__};
+    std::atomic<LONG> zoomPermille{1000};
+    std::atomic<LONG> verticalCropPermille{0};
+
+    std::atomic<LONG> autoFraming{1};
+    std::atomic<LONG> faceTracking{1};
+    std::atomic<LONG> trackingSpeed{90};
+    std::atomic<LONG> deadZonePercent{7};
+    std::atomic<LONG> targetMode{static_cast<LONG>(TargetMode::Group)};
+    std::atomic<LONG> ledMode{static_cast<LONG>(LedMode::Auto)};
+    std::atomic<LONG> autoCenter{1};
+    std::atomic<LONG> digitalZoomLimitPercent{180};
+    // RGB smart-camera stabilization. FaceTracker defines the composition
+    // target; the physical 02B0 accelerometer supplies gravity-referenced
+    // feed-forward so base pitch disturbances are rejected between face updates.
+    std::atomic<LONG> tiltStabilization{1};
+    std::atomic<LONG> stabilizationStrength{60};
+
+    std::atomic<LONG> faceCount{0};
+    std::atomic<LONG> faceCenterX{320};
+    std::atomic<LONG> faceCenterY{240};
+    std::atomic<LONG> faceWidth{0};
+    std::atomic<LONG> faceHeight{0};
+    std::atomic<LONG> accelX{0};
+    std::atomic<LONG> accelY{0};
+    std::atomic<LONG> accelZ{0};
+    std::atomic<LONG> motorTransport{0};
+    std::atomic<LONG> engineOnline{0};
+    std::atomic<LONG> lastControlHresult{0};
+    std::atomic<LONG> stabilizationCorrectionTenths{0};
+};
+
+inline State& Global() noexcept {
+    static State state;
+    return state;
+}
+
+inline LONG ClampLong(LONG value, LONG minimum, LONG maximum) noexcept {
+    if (value < minimum) return minimum;
+    if (value > maximum) return maximum;
+    return value;
+}
+}
