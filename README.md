@@ -2,6 +2,10 @@
 
 A Windows/Linux driver-runtime and application suite for **Kinect for Xbox 360 / Kinect 1414**.
 
+
+<img width="897" height="668" alt="Kinect Xbox 360" src="https://github.com/user-attachments/assets/b0bf0a19-4427-4d04-924a-494c156e9355" />
+
+
 The project exposes RGB, infrared, calibrated metric depth, motor/tilt, LED, accelerometer and the four-microphone array. On Linux, the Kinect camera protocol is handled directly in user space with **libusb-1.0**; the runtime does not link to `libfreenect`.
 
 > **Important terminology:** the Linux implementation is a **user-space driver/runtime**, not a custom Linux kernel module. The kernel provides generic USB/audio/video infrastructure; Remold owns Kinect protocol, stream arbitration, application IPC, hot-plug behavior and recovery policy.
