@@ -10,17 +10,13 @@ SynKinect Studio application
 - RGBD execution: one shared Kinect I/O + adaptive timestamp synchronizer + shared calibration/registration instance; Scanner uses FIFO paired frames and Interactivity uses the newest published pair on its own 3D-fusion worker.
 - Synchronizer validation: out-of-order RGB/Depth with +110 ms clock offset recovered 3 canonical pairs at 0.0 ms residual.
 - Scanner precision: edge-preserving 3×3 depth median/majority filtering plus tighter, higher-sample ICP; both consume the same canonical RgbdFramePair geometry.
-- Rebuilt SynKinectStudio.jar SHA-256: dd5804893608deb8a5e7f36a453c2a00777d93bfbf4350ac610c8926d51d1418.
 - Anatomy output: metric XYZ joints for head, torso, arms and legs plus wrist/palm and named finger-tip candidates per hand.
 - Surveillance event video: MP4/H.264 via external FFmpeg/libx264; no AVI/MJPEG fallback.
 - Default compact-video profile: 512x384, 10 fps, 384 kbit/s target, 512 kbit/s max.
-- 60-second synthetic encode validation: 2,882,662 bytes (2.88 MB decimal).
-- UI language policy: en-US first and default; pt-BR remains selectable.
 
 Native runtimes
 - No Kinect native driver protocol source was changed by this RGB+Depth 3D/H.264 Studio update.
 - Existing staged native Linux/Windows payloads are therefore retained and are not claimed as freshly rebuilt in this pass.
-- A hardware-certified release should rebuild native payloads on their documented target toolchains and validate with a physical Kinect 1414.
 
 External dependency
 - Compact Surveillance video requires FFmpeg with libx264.
