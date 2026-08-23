@@ -21,8 +21,6 @@ Cross-platform runtime and application suite for **Kinect for Xbox 360 / Kinect 
 - graphical-installable Debian package recipe/output and RPM package recipe;
 - cross-platform architecture, build, installation, runtime and release documentation.
 
-The repository contains **no split/obsolete SynKinect application executables**. The V1 application source is the unified SynKinect Studio only.
-
 ## Repository layout
 
 The SynKinect Studio application icon is stored as `applications/processing/SynKinectStudio/data/synkinect-studio-icon.png` and mirrored into the runtime binary folders.
