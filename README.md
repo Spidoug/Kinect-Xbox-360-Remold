@@ -147,8 +147,6 @@ Windows uses Microsoft inbox WinUSB/USB Audio facilities plus Remold user-mode s
   <img src="docs/images/windows-driver-control-panel.png" alt="Kinect Xbox 360 Remold Windows driver control panel" width="760">
 </p>
 
-Documentation image ownership and naming are described in [`docs/images/README.md`](docs/images/README.md).
-
 ```text
 drivers/windows/source/
 ```
