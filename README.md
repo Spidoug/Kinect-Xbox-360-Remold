@@ -53,7 +53,6 @@ Kinect-Xbox-360-Remold/
 └── scripts/                        # repository-level build/package helpers
 ```
 
-See [`docs/REPOSITORY-LAYOUT.md`](docs/REPOSITORY-LAYOUT.md)
 
 ## SynKinect Studio
 
