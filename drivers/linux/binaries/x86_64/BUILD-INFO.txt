@@ -1,7 +1,0 @@
-Kinect Xbox 360 Remold - Linux x86_64 development build
-Generated: 2026-08-22
-Source: drivers/linux/source
-Backend: direct libusb-1.0 (no libfreenect runtime dependency)
-Compiler: g++ (Debian 14.2.0-19) 14.2.0
-Build system: CMake Release via drivers/linux/BUILD.sh
-Note: software/build validated; physical Kinect validation remains pending.
