@@ -2,14 +2,6 @@
 
 Cross-platform runtime and application suite for **Kinect for Xbox 360 / Kinect 1414**, with native Windows and Linux backends and a single Processing application: **SynKinect Studio**.
 
-> Release line: **v1.0.0**  
-> Source of truth: `VERSION`  
-> Primary application: `applications/processing/SynKinectStudio/SynKinectStudio.pde`
-
-<p align="center">
-  <img src="docs/images/synkinect-studio-icon.png" alt="SynKinect Studio icon" width="128">
-</p>
-
 ## Project preview
 
 <p align="center">
