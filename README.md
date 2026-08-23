@@ -1,4 +1,4 @@
-# Kinect Xbox 360 Remold — v1.0.0
+# Kinect Xbox 360 Remold
 
 Cross-platform runtime and application suite for **Kinect for Xbox 360 / Kinect 1414**, with native Windows and Linux backends and a single Processing application: **SynKinect Studio**.
 
