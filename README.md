@@ -8,14 +8,6 @@ Cross-platform runtime and application suite for **Kinect for Xbox 360 / Kinect 
   <img src="docs/images/kinect-xbox-360-sensor.png" alt="Kinect for Xbox 360 sensor" width="560">
 </p>
 
-### Windows driver/control interface
-
-<p align="center">
-  <img src="docs/images/windows-driver-control-panel.png" alt="Kinect Xbox 360 Remold Windows driver control panel" width="760">
-</p>
-
-Documentation image ownership and naming are described in [`docs/images/README.md`](docs/images/README.md).
-
 ## What is included in V1
 
 - one Processing application with five tabs: **3D Scanner**, **Acoustic Scanner**, **Microphones**, **Surveillance** and **Interactivity**;
@@ -154,6 +146,14 @@ Details: `drivers/linux/README.md`, `docs/linux/DRIVER-RUNTIME.md` and `docs/lin
 ## Windows runtime
 
 Windows uses Microsoft inbox WinUSB/USB Audio facilities plus Remold user-mode services and Media Foundation components. Native source is under:
+
+### Windows driver/control interface
+
+<p align="center">
+  <img src="docs/images/windows-driver-control-panel.png" alt="Kinect Xbox 360 Remold Windows driver control panel" width="760">
+</p>
+
+Documentation image ownership and naming are described in [`docs/images/README.md`](docs/images/README.md).
 
 ```text
 drivers/windows/source/
