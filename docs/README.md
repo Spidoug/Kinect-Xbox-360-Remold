@@ -9,7 +9,6 @@
 - [Repository layout](REPOSITORY-LAYOUT.md) — source/binary ownership rules.
 - [Documentation images](images/README.md) — screenshot manifest, naming policy and documentation/runtime asset separation.
 - [Driver comparison](DRIVER-COMPARISON.md) — Remold vs established Kinect approaches.
-- [GitHub release procedure](GITHUB-RELEASE.md) — V1 publication checklist and release assets.
 - [V1 release notes](RELEASE-V1.0.0.md) — release summary.
 - [V1 validation](VALIDATION-V1.0.0.md) — release validation record.
 - [Linux driver/runtime](linux/DRIVER-RUNTIME.md) — services, endpoints and installation model.
