@@ -46,6 +46,7 @@ Tabs/shortcuts:
 - `2` — Acoustic Scanner
 - `3` — Microphones
 - `4` — Surveillance
+- `5` — Interactivity
 
 ## 3. First 3D scan
 
