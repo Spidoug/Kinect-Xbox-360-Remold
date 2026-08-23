@@ -64,8 +64,6 @@ The SynKinect Studio icon asset is maintained with the application source. The s
 
 ## Linux/Processing compatibility
 
-The sketch intentionally contains no `static` declarations. Shared protocol/configuration objects are normal instance objects so the same `.pde` source can pass Processing's Linux preprocessing rules.
-
 The application uses one local transport implementation for Windows named pipes and Linux Unix-domain sockets. Transport shutdown is idempotent and actively closes both input and output sides so worker threads do not remain blocked while changing tabs or closing the program.
 
 ## 3D scanner buffering
