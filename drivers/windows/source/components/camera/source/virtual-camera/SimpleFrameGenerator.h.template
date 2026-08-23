@@ -1,0 +1,46 @@
+#pragma once
+#ifndef SIMPLE_FRAME_GENERATOR_H
+#define SIMPLE_FRAME_GENERATOR_H
+#include <atomic>
+#include <chrono>
+#include <mutex>
+#include <thread>
+#include <vector>
+
+class SimpleFrameGenerator
+{
+public:
+    SimpleFrameGenerator() = default;
+    ~SimpleFrameGenerator();
+
+    HRESULT Initialize(_In_ IMFMediaType* pMediaType);
+    HRESULT CreateFrame(_Inout_updates_bytes_(len) BYTE* pBuf, _In_ DWORD len,
+                        _In_ LONG pitch, _In_ ULONG rgbMask);
+
+private:
+    HRESULT EnsureMapping();
+    bool ReadLatestNv12();
+    void ApplyDigitalFraming();
+    HRESULT WriteNv12(BYTE* pBuf, DWORD len, LONG pitch) const;
+    HRESULT WriteYuy2(BYTE* pBuf, DWORD len, LONG pitch) const;
+    HRESULT WriteRgb32(BYTE* pBuf, DWORD len, LONG pitch) const;
+    HRESULT WriteBlackFrame(BYTE* pBuf, DWORD len, LONG pitch) const;
+    void CloseMapping();
+
+    void StartSmartEngine();
+    void StopSmartEngine();
+    void SmartEngineLoop();
+
+    UINT32 m_width = 0;
+    UINT32 m_height = 0;
+    GUID m_subType = GUID_NULL;
+    HANDLE m_mapping = nullptr;
+    const void* m_base = nullptr;
+    std::vector<BYTE> m_latestNv12;
+    std::vector<BYTE> m_framedNv12;
+    std::mutex m_lock;
+    std::atomic<ULONGLONG> m_lastRgbActivity{0};
+    std::atomic<bool> m_engineRun{false};
+    std::thread m_engineThread;
+};
+#endif

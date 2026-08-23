@@ -1,0 +1,51 @@
+; Kinect360RemoldNui.inf
+; Xbox NUI Motor (02B0) uses the Microsoft inbox WinUSB function driver.
+
+[Version]
+Signature   = "$Windows NT$"
+Class       = Kinect360RemoldInternal
+ClassGuid   = {E0488A13-A670-423D-BD1B-168DDD4BD596}
+Provider    = %ProviderName%
+CatalogFile = Kinect360RemoldNui.cat
+DriverVer   = 08/21/2026,1.0.0.0
+PnpLockdown = 1
+
+[ClassInstall32]
+AddReg = RemoldInternalClass.Registry
+
+[RemoldInternalClass.Registry]
+HKR,,,,%InternalClassName%
+HKR,,NoDisplayClass,,1
+
+[Manufacturer]
+%ProviderName% = RemoldNuiModels,NTamd64.10.0...22000
+
+[RemoldNuiModels.NTamd64.10.0...22000]
+%RemoldNui.DeviceDesc% = RemoldNui_Install, USB\VID_045E&PID_02B0
+
+[RemoldNui_Install.NT]
+Include = winusb.inf
+Needs   = WINUSB.NT
+
+[RemoldNui_Install.NT.Services]
+Include = winusb.inf
+Needs   = WINUSB.NT.Services
+
+[RemoldNui_Install.NT.HW]
+AddReg = RemoldNui.Interface,RemoldNui.Power,RemoldNui.Security
+
+[RemoldNui.Interface]
+HKR,,DeviceInterfaceGUIDs,0x00010000,"{71D72413-E133-42B4-A5CE-66F4D2E38DFA}"
+
+[RemoldNui.Power]
+HKR,,DeviceIdleEnabled,0x00010001,0
+HKR,,DefaultIdleState,0x00010001,0
+HKR,,SystemWakeEnabled,0x00010001,0
+
+[RemoldNui.Security]
+HKR,,Security,,"D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;GRGW;;;AU)"
+
+[Strings]
+ProviderName = "Douglas Santana (@spidoug)"
+InternalClassName = "Kinect Xbox 360 Internal"
+RemoldNui.DeviceDesc = "Xbox NUI Motor"

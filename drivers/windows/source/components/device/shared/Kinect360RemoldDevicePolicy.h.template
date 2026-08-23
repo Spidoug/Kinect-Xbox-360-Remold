@@ -1,0 +1,18 @@
+#pragma once
+
+namespace Kinect360RemoldDevicePolicy {
+constexpr LONG kTiltMinDegrees = __REMOLD_TILT_MIN__;
+constexpr LONG kTiltMaxDegrees = __REMOLD_TILT_MAX__;
+constexpr ULONGLONG kCameraActivityLeaseMs = __REMOLD_CAMERA_ACTIVITY_LEASE_MS__ULL;
+constexpr DWORD kLedActiveRefreshMs = __REMOLD_LED_ACTIVE_REFRESH_MS__;
+constexpr DWORD kLedIdleRefreshMs = __REMOLD_LED_IDLE_REFRESH_MS__;
+constexpr DWORD kLedIdleFlashMs = __REMOLD_LED_IDLE_FLASH_MS__;
+constexpr DWORD kLedIdleOffMs = __REMOLD_LED_IDLE_OFF_MS__;
+constexpr DWORD kLedPollMs = __REMOLD_LED_POLL_MS__;
+constexpr DWORD kLedRetryMs = __REMOLD_LED_RETRY_MS__;
+constexpr bool kConnectionChirpEnabled = __REMOLD_CHIRP_ENABLED__;
+constexpr SHORT kConnectionChirpStepHalfDegrees = __REMOLD_CHIRP_STEP_HALF_DEGREES__;
+constexpr DWORD kConnectionChirpPulseMs = __REMOLD_CHIRP_PULSE_MS__;
+constexpr int kConnectionChirpCycles = __REMOLD_CHIRP_CYCLES__;
+constexpr ULONGLONG kConnectionChirpCooldownMs = __REMOLD_CHIRP_COOLDOWN_MS__ULL;
+}
