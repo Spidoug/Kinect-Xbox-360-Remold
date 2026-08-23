@@ -1,0 +1,7 @@
+[Unit]
+Description=Kinect Xbox 360 Remold runtime
+Wants=kinect360-remold-broker.service kinect360-remold-camera.service kinect360-remold-audio.service kinect360-remold-v4l2.service kinect360-remold-camera-ip.service
+After=systemd-udevd.service
+
+[Install]
+WantedBy=multi-user.target

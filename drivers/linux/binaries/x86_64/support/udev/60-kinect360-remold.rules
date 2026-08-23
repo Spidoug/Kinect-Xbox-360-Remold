@@ -1,0 +1,6 @@
+# Kinect for Xbox 360 / model 1414. Services own the interfaces; desktop users
+# receive access for diagnostics and direct libusb access without manual chmod.
+SUBSYSTEM=="usb", ATTR{idVendor}=="045e", ATTR{idProduct}=="02b0", MODE="0660", GROUP="video", TAG+="uaccess", TAG+="systemd", ENV{SYSTEMD_WANTS}+="kinect360-remold.target"
+SUBSYSTEM=="usb", ATTR{idVendor}=="045e", ATTR{idProduct}=="02ae", MODE="0660", GROUP="video", TAG+="uaccess", TAG+="systemd", ENV{SYSTEMD_WANTS}+="kinect360-remold.target"
+SUBSYSTEM=="usb", ATTR{idVendor}=="045e", ATTR{idProduct}=="02ad", MODE="0660", GROUP="audio", TAG+="uaccess", TAG+="systemd", ENV{SYSTEMD_WANTS}+="kinect360-remold.target"
+SUBSYSTEM=="usb", ATTR{idVendor}=="045e", ATTR{idProduct}=="02bb", MODE="0660", GROUP="audio", TAG+="uaccess", TAG+="systemd", ENV{SYSTEMD_WANTS}+="kinect360-remold.target"

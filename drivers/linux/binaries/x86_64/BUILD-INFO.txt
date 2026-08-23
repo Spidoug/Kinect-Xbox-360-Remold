@@ -1,0 +1,22 @@
+Kinect Xbox 360 Remold - Linux x86_64 V1 staging payload
+Release: 1.0.0
+Rebuilt/staged: 2026-08-23
+Source: drivers/linux/source
+Backend: direct libusb-1.0 (no libfreenect runtime dependency)
+Compiler family used in this environment: GNU g++ / Release
+
+Rebuilt from the current V1 source in this environment:
+- bin/kinect360-remoldctl
+- libexec/kinect360-remold/kinect360-remold-v4l2
+- libexec/kinect360-remold/kinect360-remold-camera-ip
+
+Retained from the repository's prior x86_64 payload because this environment does not provide
+libusb-1.0 development headers and ALSA development headers, and package-network access is blocked:
+- libexec/kinect360-remold/kinect360-remold-broker
+- libexec/kinect360-remold/kinect360-remold-camera
+- libexec/kinect360-remold/kinect360-remold-audio
+
+The retained executables correspond to source areas not changed by the V1 strict-contract refactor.
+The rebuilt V4L2 bridge includes the V1 requirement for client-activity event support.
+The DEB is regenerated from this staged payload after these changes.
+Hardware validation with a physical Kinect 1414 is not available in this build environment and must not be inferred from this file.

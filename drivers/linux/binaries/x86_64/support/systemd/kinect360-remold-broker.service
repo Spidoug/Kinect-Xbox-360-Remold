@@ -1,0 +1,13 @@
+[Unit]
+Description=Kinect 360 Remold motor/control broker
+PartOf=kinect360-remold.target
+After=systemd-udevd.service
+
+[Service]
+Type=simple
+ExecStart=/usr/libexec/kinect360-remold/kinect360-remold-broker
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=kinect360-remold.target
