@@ -8,22 +8,6 @@ Cross-platform runtime and application suite for **Kinect for Xbox 360 / Kinect 
   <img src="docs/images/kinect-xbox-360-sensor.png" alt="Kinect for Xbox 360 sensor" width="560">
 </p>
 
-SynKinect Studio unifies the five V1 tools in one window. The screenshots below show the current application interface for each tab.
-
-<table>
-  <tr>
-    <td width="50%"><strong>3D Scanner</strong><br><img src="docs/images/synkinect-studio-3d-scanner.png" alt="SynKinect Studio 3D Scanner tab"></td>
-    <td width="50%"><strong>Acoustic Scanner</strong><br><img src="docs/images/synkinect-studio-acoustic-scanner.png" alt="SynKinect Studio Acoustic Scanner tab"></td>
-  </tr>
-  <tr>
-    <td width="50%"><strong>Microphones</strong><br><img src="docs/images/synkinect-studio-microphones.png" alt="SynKinect Studio Microphones tab"></td>
-    <td width="50%"><strong>Surveillance</strong><br><img src="docs/images/synkinect-studio-surveillance.png" alt="SynKinect Studio Surveillance tab"></td>
-  </tr>
-  <tr>
-    <td colspan="2"><strong>Interactivity</strong><br><img src="docs/images/synkinect-studio-interactivity.png" alt="SynKinect Studio Interactivity tab"></td>
-  </tr>
-</table>
-
 ### Windows driver/control interface
 
 <p align="center">
@@ -88,6 +72,22 @@ See [`docs/REPOSITORY-LAYOUT.md`](docs/REPOSITORY-LAYOUT.md) for ownership rules
 ## SynKinect Studio
 
 The five tools run as tabs inside the same Processing window. Keys `1` through `5` switch tabs. The shell-level **Language** control changes every initialized module together, while modules initialized later inherit the same locale.
+
+SynKinect Studio unifies the five V1 tools in one window. The screenshots below show the current application interface for each tab.
+
+<table>
+  <tr>
+    <td width="50%"><strong>3D Scanner</strong><br><img src="docs/images/synkinect-studio-3d-scanner.png" alt="SynKinect Studio 3D Scanner tab"></td>
+    <td width="50%"><strong>Acoustic Scanner</strong><br><img src="docs/images/synkinect-studio-acoustic-scanner.png" alt="SynKinect Studio Acoustic Scanner tab"></td>
+  </tr>
+  <tr>
+    <td width="50%"><strong>Microphones</strong><br><img src="docs/images/synkinect-studio-microphones.png" alt="SynKinect Studio Microphones tab"></td>
+    <td width="50%"><strong>Surveillance</strong><br><img src="docs/images/synkinect-studio-surveillance.png" alt="SynKinect Studio Surveillance tab"></td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Interactivity</strong><br><img src="docs/images/synkinect-studio-interactivity.png" alt="SynKinect Studio Interactivity tab"></td>
+  </tr>
+</table>
 
 | Tab | Purpose |
 | --- | --- |
