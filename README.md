@@ -31,7 +31,6 @@ Kinect-Xbox-360-Remold/
 ├── VERSION                         # release version source of truth
 ├── README.md                       # project overview and visual presentation
 ├── CONTRIBUTING.md
-├── SECURITY.md
 ├── THIRD-PARTY-NOTICES.md
 ├── applications/
 │   ├── README.md
