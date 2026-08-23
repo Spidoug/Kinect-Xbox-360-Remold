@@ -53,7 +53,7 @@ Kinect-Xbox-360-Remold/
 └── scripts/                        # repository-level build/package helpers
 ```
 
-See [`docs/REPOSITORY-LAYOUT.md`](docs/REPOSITORY-LAYOUT.md) for ownership rules and [`docs/images/README.md`](docs/images/README.md) for documentation media conventions.
+See [`docs/REPOSITORY-LAYOUT.md`](docs/REPOSITORY-LAYOUT.md)
 
 ## SynKinect Studio
 
