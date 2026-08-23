@@ -1,4 +1,4 @@
-# Installation — V1
+# Installation
 
 ## Linux
 
