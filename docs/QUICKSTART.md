@@ -1,4 +1,4 @@
-# Quick start — V1
+# Quick start
 
 ## 1. Choose the platform runtime
 
