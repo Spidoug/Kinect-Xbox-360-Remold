@@ -28,9 +28,7 @@ The SynKinect Studio application icon is stored as `applications/processing/SynK
 
 ```text
 Kinect-Xbox-360-Remold/
-├── VERSION                         # release version source of truth
 ├── README.md                       # project overview and visual presentation
-├── CONTRIBUTING.md
 ├── THIRD-PARTY-NOTICES.md
 ├── applications/
 │   ├── README.md
