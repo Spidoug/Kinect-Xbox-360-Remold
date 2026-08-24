@@ -169,11 +169,8 @@ This GitHub-ready source package intentionally leaves that Windows binary target
 Start with:
 
 - `docs/QUICKSTART.md`
-- `docs/BUILD.md`
 - `docs/INSTALLATION.md`
 - `docs/ARCHITECTURE.md`
-- `docs/PROJECT-STATUS.md`
-- `docs/GITHUB-RELEASE.md`
 
 ## Hardware validation note
 
