@@ -56,7 +56,7 @@ for required in \
   "$ROOT/docs/RELEASE-V1.md" \
   "$ROOT/docs/SCANNER-QUALITY.md" \
   "$ROOT/docs/BUILD-DRIVERS.md" \
-  "$ROOT/PROJECT-AUDIT.md"; do
+  "$ROOT/docs/PROJECT-AUDIT.md"; do
   [[ -s "$required" ]] || fail "required documentation missing: ${required#$ROOT/}"
 done
 pass 'release/build/scanner-quality/audit documentation present'
@@ -79,5 +79,28 @@ grep -q 'night.enterLuma' "$ROOT/applications/processing/SynKinectStudio/data/su
 grep -q 'setSurveillanceForeground(false)' "$ROOT/applications/processing/SynKinectStudio/Surveillance.pde" || fail 'Surveillance does not release IR on module exit'
 grep -q 'FindKinectUacCaptureEndpoints' "$ROOT/drivers/windows/source/components/device/source/audio-bridge/Kinect360RemoldAudioBridge.cpp" || fail 'Windows AudioBridge does not enumerate all Kinect UAC endpoints'
 pass 'static architecture contracts present'
+
+# Clean-build and public-presentation contract.
+for template in \
+  "$ROOT/applications/runtime-templates/windows-x64/SynKinectStudio.cmd" \
+  "$ROOT/applications/runtime-templates/linux-x64/SynKinectStudio.sh" \
+  "$ROOT/applications/runtime-templates/linux-x64/SynKinectStudio.desktop"; do
+  [[ -s "$template" ]] || fail "runtime template missing: ${template#$ROOT/}"
+done
+grep -q 'repo.maven.apache.org/maven2/org/processing/core/4.4.6' "$ROOT/scripts/windows/Build-Studio.ps1" || fail 'Windows Studio build does not bootstrap Processing Core'
+grep -q 'jogamp.org/deployment/maven/org/jogamp/jogl/jogl-all/2.5.0' "$ROOT/scripts/windows/Build-Studio.ps1" || fail 'Windows Studio build does not bootstrap JOGL'
+grep -q '64987c493d8d6959a1f253c9564cf2a99faec52054d97d95e530578a598f19ed' "$ROOT/scripts/windows/Build-Studio.ps1" || fail 'Windows Studio Processing Core hash pin missing'
+grep -q 'repo.maven.apache.org/maven2/org/processing/core/4.4.6' "$ROOT/scripts/linux/BUILD-STUDIO.sh" || fail 'Linux Studio build does not bootstrap Processing Core'
+grep -q 'e97850f290d8e44ba07fa0500d7a071ff444209099f0372df3dba707cba3ddc1' "$ROOT/scripts/linux/BUILD-STUDIO.sh" || fail 'Linux JOGL native hash pin missing'
+for image in \
+  synkinect-studio-home.png \
+  synkinect-studio-3d-scanner.png \
+  synkinect-studio-acoustic-scanner.png \
+  synkinect-studio-microphones.png \
+  synkinect-studio-surveillance.png \
+  synkinect-studio-interactivity.png; do
+  [[ -s "$ROOT/docs/images/$image" ]] || fail "presentation screenshot missing: $image"
+done
+pass 'clean-build bootstrap and presentation assets present'
 
 printf '\nSource release validation completed successfully.\n'
