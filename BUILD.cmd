@@ -1,59 +1,43 @@
 @echo off
 setlocal EnableExtensions
+set "REMOLD_CALLER=%REMOLD_BUILD_PARENT%"
 set "REMOLD_BUILD_PARENT=1"
 set "ROOT=%~dp0"
-set "STUDIO=%ROOT%scripts\windows\BUILD-STUDIO.cmd"
-set "TARGET=%ROOT%drivers\windows\BUILD.cmd"
+set "CHILD=%ROOT%source\BUILD.cmd"
 set "RC=0"
 
-title Kinect Xbox 360 Remold v1.0 - BUILD
-color 07
-
 echo ============================================================
-echo  Kinect Xbox 360 Remold v1.0
-echo  BUILD - SynKinect Studio + Windows Driver and Runtime
+echo  Kinect Xbox 360 Remold v1.0 - Windows build launcher
 echo ============================================================
 echo.
-echo This launcher ALWAYS keeps the window open at the end.
-echo.
 
-if not exist "%STUDIO%" (
-    echo ERROR: the project is incomplete. Missing:
-    echo   "%STUDIO%"
-    set "RC=2"
-    goto :finish
-)
-if not exist "%TARGET%" (
-    echo ERROR: the project is incomplete. Missing:
-    echo   "%TARGET%"
+if not exist "%CHILD%" (
+    echo ERROR: build script was not found:
+    echo   "%CHILD%"
     echo.
-    echo Extract the entire ZIP to a normal folder first.
+    echo Extract the COMPLETE project ZIP to a normal folder before
+    echo running BUILD.cmd. Do not run it from inside the ZIP preview.
     set "RC=2"
     goto :finish
 )
 
-echo [1/2] Building self-contained SynKinect Studio...
-call "%STUDIO%"
-set "RC=%ERRORLEVEL%"
-if not "%RC%"=="0" goto :finish
-
-echo.
-echo [2/2] Building Windows native driver/runtime...
-call "%TARGET%" %*
+call "%CHILD%" %*
 set "RC=%ERRORLEVEL%"
 
 :finish
 echo.
-echo ============================================================
 if "%RC%"=="0" (
+    echo ============================================================
     echo  BUILD FINISHED SUCCESSFULLY
+    echo ============================================================
 ) else (
-    echo  BUILD FAILED - ERROR CODE %RC%
-    echo.
-    echo Read the messages above. The build logs are normally in:
-    echo   "%ROOT%drivers\windows\source\logs"
+    echo ============================================================
+    echo  BUILD FAILED - error code %RC%
+    echo ============================================================
+    echo The window will remain open so you can read the error.
+    echo Build logs, when created, are in:
+    echo   "%ROOT%source\logs"
 )
-echo ============================================================
 echo.
-pause
+if not defined REMOLD_CALLER pause
 exit /b %RC%

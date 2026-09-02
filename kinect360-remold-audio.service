@@ -1,0 +1,15 @@
+[Unit]
+StartLimitIntervalSec=30
+StartLimitBurst=5
+Description=Kinect 360 Remold UAC firmware/audio bridge
+PartOf=kinect360-remold.target
+After=systemd-udevd.service sound.target
+
+[Service]
+Type=simple
+ExecStart=/usr/libexec/kinect360-remold/kinect360-remold-audio
+Restart=on-failure
+RestartSec=1
+
+[Install]
+WantedBy=kinect360-remold.target

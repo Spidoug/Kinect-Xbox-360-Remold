@@ -1,17 +1,27 @@
-# Repository helper scripts — V1
+# Native Linux packages — V1
 
-## Native drivers
+Package artifacts are generated from current source and are not stored in the source release.
 
-- `windows/BUILD-DRIVER.cmd` — builds the current Windows native driver/runtime source.
-- `linux/BUILD-DRIVER.sh` — builds the current Linux native driver/runtime source.
-- `linux/INSTALL-DRIVER.sh` — builds and installs the current Linux runtime.
-- `VERIFY-SOURCE-RELEASE.sh` — validates that the cleaned source release contains no generated application/native payloads and no retired V1 contracts.
+## Debian / Ubuntu / Mint
 
-## SynKinect Studio
+```bash
+./build-deb.sh amd64
+```
 
-- `windows/BUILD-STUDIO.cmd` — rebuilds the self-contained Java 17 Studio JAR; body tracking and MJPEG AVI recording are internal.
-- `windows/BUILD-APPLICATION-RUNTIME.cmd` — creates the minimized Windows Java runtime used by a portable application package.
-- `windows/PACKAGE-APPLICATION.cmd` — packages the Windows application runtime.
-- `linux/BUILD-STUDIO.sh` — rebuilds the Java 17 Studio JAR on Linux and stages generated runtime assets.
+The builder creates a temporary CMake build, compiles the complete native runtime, stages that exact output and generates:
 
-Native driver outputs and generated Studio payloads are build outputs and are not source-release inputs.
+```text
+output/kinect360-remold_1.0-1_amd64.deb
+```
+
+The package installs the control broker, RGB/RGB-HQ/IR/Depth camera bridge, four-channel audio bridge, V4L2 bridge, IP camera, control tool, udev rules, systemd units, configuration and UAC firmware bootstrap helper.
+
+## Fedora / RHEL family
+
+```bash
+./build-rpm.sh
+```
+
+The RPM builder creates a temporary source archive from `drivers/linux/source/` and invokes `rpmbuild`. `rpm/kinect360-remold.spec` compiles that source in `%build`; no generated driver payload is used as an input.
+
+Distribution package names for facilities such as `v4l2loopback` can vary. V1 requires v4l2loopback 0.15.0 or newer at runtime.
