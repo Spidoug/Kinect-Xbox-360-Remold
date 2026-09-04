@@ -1,6 +1,0 @@
-#pragma once
-
-namespace Kinect360RemoldDevicePolicy {
-constexpr LONG kTiltMinDegrees = __REMOLD_TILT_MIN__;
-constexpr LONG kTiltMaxDegrees = __REMOLD_TILT_MAX__;
-}
