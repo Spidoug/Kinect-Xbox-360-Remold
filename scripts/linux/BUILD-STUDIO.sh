@@ -66,7 +66,7 @@ JOGL_BASE='https://jogamp.org/deployment/maven/org/jogamp/jogl/jogl-all/2.5.0'
 GLUEGEN_BASE='https://jogamp.org/deployment/maven/org/jogamp/gluegen/gluegen-rt/2.5.0'
 
 for target in "$LINUX_LIB" "$WINDOWS_LIB"; do
-  stage core-4.4.6.jar "$PROCESSING_BASE/core-4.4.6.jar" 64987c493d8d6959a1f253c9564cf2a99faec52054d97d95e530578a598f19ed "$target"
+  stage core-4.4.6.jar "$PROCESSING_BASE/core-4.4.6.jar" e92f6f517963e2f63882c71ab92ed46c98dbfa1cbccab8b2475c1d76ceca0f86 "$target"
   stage jogl-all-2.5.0.jar "$JOGL_BASE/jogl-all-2.5.0.jar" 245717cceabca264a210a899f8839d47bd127f50f80892ead2277dd89cbcd301 "$target"
   stage gluegen-rt-2.5.0.jar "$GLUEGEN_BASE/gluegen-rt-2.5.0.jar" 3620c18536a8671fcb1c595d7448e9d31226b824117af6a4c6d45c657f4dabe3 "$target"
 done
