@@ -89,7 +89,7 @@ for template in \
 done
 grep -q 'repo.maven.apache.org/maven2/org/processing/core/4.4.6' "$ROOT/scripts/windows/Build-Studio.ps1" || fail 'Windows Studio build does not bootstrap Processing Core'
 grep -q 'jogamp.org/deployment/maven/org/jogamp/jogl/jogl-all/2.5.0' "$ROOT/scripts/windows/Build-Studio.ps1" || fail 'Windows Studio build does not bootstrap JOGL'
-grep -q '64987c493d8d6959a1f253c9564cf2a99faec52054d97d95e530578a598f19ed' "$ROOT/scripts/windows/Build-Studio.ps1" || fail 'Windows Studio Processing Core hash pin missing'
+grep -q 'e92f6f517963e2f63882c71ab92ed46c98dbfa1cbccab8b2475c1d76ceca0f86' "$ROOT/scripts/windows/Build-Studio.ps1" || fail 'Windows Studio Processing Core hash pin missing'
 grep -q 'repo.maven.apache.org/maven2/org/processing/core/4.4.6' "$ROOT/scripts/linux/BUILD-STUDIO.sh" || fail 'Linux Studio build does not bootstrap Processing Core'
 grep -q 'e97850f290d8e44ba07fa0500d7a071ff444209099f0372df3dba707cba3ddc1' "$ROOT/scripts/linux/BUILD-STUDIO.sh" || fail 'Linux JOGL native hash pin missing'
 for image in \
