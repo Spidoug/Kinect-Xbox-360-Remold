@@ -55,7 +55,7 @@ $processingBase='https://repo.maven.apache.org/maven2/org/processing/core/4.4.6'
 $joglBase='https://jogamp.org/deployment/maven/org/jogamp/jogl/jogl-all/2.5.0'
 $gluegenBase='https://jogamp.org/deployment/maven/org/jogamp/gluegen/gluegen-rt/2.5.0'
 $dependencies=@(
-  @{Name='core-4.4.6.jar';Url="$processingBase/core-4.4.6.jar";Sha256='64987c493d8d6959a1f253c9564cf2a99faec52054d97d95e530578a598f19ed';Targets=@($WindowsLib,$LinuxLib)},
+  @{Name='core-4.4.6.jar';Url="$processingBase/core-4.4.6.jar";Sha256='e92f6f517963e2f63882c71ab92ed46c98dbfa1cbccab8b2475c1d76ceca0f86';Targets=@($WindowsLib,$LinuxLib)},
   @{Name='jogl-all-2.5.0.jar';Url="$joglBase/jogl-all-2.5.0.jar";Sha256='245717cceabca264a210a899f8839d47bd127f50f80892ead2277dd89cbcd301';Targets=@($WindowsLib,$LinuxLib)},
   @{Name='gluegen-rt-2.5.0.jar';Url="$gluegenBase/gluegen-rt-2.5.0.jar";Sha256='3620c18536a8671fcb1c595d7448e9d31226b824117af6a4c6d45c657f4dabe3';Targets=@($WindowsLib,$LinuxLib)},
   @{Name='jogl-all-2.5.0-natives-windows-amd64.jar';Url="$joglBase/jogl-all-2.5.0-natives-windows-amd64.jar";Sha256='ce0b755f6bc0eeefd386539e72d13e4d8e96e1f086ca222f8a02e11320032142';Targets=@($WindowsLib)},
