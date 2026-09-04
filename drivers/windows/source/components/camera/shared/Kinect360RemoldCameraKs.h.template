@@ -1,0 +1,199 @@
+#pragma once
+#include "Kinect360RemoldCameraControls.h"
+#include <Ks.h>
+#include <ksmedia.h>
+#include <oaidl.h>
+
+namespace Kinect360RemoldCameraControls {
+
+inline bool IsStandardPtzId(ULONG id) noexcept {
+    return id == KSPROPERTY_CAMERACONTROL_PAN ||
+           id == KSPROPERTY_CAMERACONTROL_TILT ||
+           id == KSPROPERTY_CAMERACONTROL_ZOOM;
+}
+
+inline void StandardRange(ULONG id, LONG& minimum, LONG& maximum, LONG& step) noexcept {
+    step = 1;
+    if (id == KSPROPERTY_CAMERACONTROL_PAN) { minimum = -30; maximum = 30; return; }
+    if (id == KSPROPERTY_CAMERACONTROL_TILT) { minimum = __REMOLD_TILT_MIN__; maximum = __REMOLD_TILT_MAX__; return; }
+    minimum = 10; maximum = 600; // standard CameraControl zoom scale; mapped to 1.0x..2.0x digitally.
+}
+
+inline LONG GetStandardValue(ULONG id) noexcept {
+    auto& state = Global();
+    if (id == KSPROPERTY_CAMERACONTROL_PAN) return state.panDegrees.load();
+    if (id == KSPROPERTY_CAMERACONTROL_TILT) return state.tiltDegrees.load();
+    LONG permille = ClampLong(state.zoomPermille.load(), 1000, 2000);
+    return 10 + ((permille - 1000) * 590) / 1000;
+}
+
+inline void SetStandardValue(ULONG id, LONG value) noexcept {
+    auto& state = Global();
+    state.autoFraming.store(0); // explicit PTZ from an application takes ownership.
+    if (id == KSPROPERTY_CAMERACONTROL_PAN) {
+        state.panDegrees.store(ClampLong(value, -30, 30));
+    } else if (id == KSPROPERTY_CAMERACONTROL_TILT) {
+        state.tiltDegrees.store(ClampLong(value, __REMOLD_TILT_MIN__, __REMOLD_TILT_MAX__));
+    } else if (id == KSPROPERTY_CAMERACONTROL_ZOOM) {
+        value = ClampLong(value, 10, 600);
+        state.zoomPermille.store(1000 + ((value - 10) * 1000) / 590);
+    }
+}
+
+inline HRESULT BasicSupportLong(LPVOID data, ULONG dataLength, ULONG* bytesReturned,
+                                LONG minimum, LONG maximum, LONG step, bool writable) noexcept {
+    if (!bytesReturned) return E_POINTER;
+    const ULONG access = KSPROPERTY_TYPE_GET | KSPROPERTY_TYPE_BASICSUPPORT |
+                         (writable ? KSPROPERTY_TYPE_SET : 0);
+    const ULONG fullSize = sizeof(KSPROPERTY_DESCRIPTION) + sizeof(KSPROPERTY_MEMBERSHEADER) + sizeof(KSPROPERTY_STEPPING_LONG);
+    *bytesReturned = fullSize;
+    if (!data || dataLength == 0) return HRESULT_FROM_WIN32(ERROR_MORE_DATA);
+    if (dataLength >= sizeof(ULONG) && dataLength < sizeof(KSPROPERTY_DESCRIPTION)) {
+        *reinterpret_cast<ULONG*>(data) = access;
+        *bytesReturned = sizeof(ULONG);
+        return S_OK;
+    }
+    if (dataLength < sizeof(KSPROPERTY_DESCRIPTION)) return HRESULT_FROM_WIN32(ERROR_INSUFFICIENT_BUFFER);
+
+    auto* description = static_cast<PKSPROPERTY_DESCRIPTION>(data);
+    ZeroMemory(description, dataLength < fullSize ? dataLength : fullSize);
+    description->AccessFlags = access;
+    description->DescriptionSize = fullSize;
+    description->PropTypeSet.Set = KSPROPSETID_General;
+    description->PropTypeSet.Id = VT_I4;
+    description->PropTypeSet.Flags = 0;
+    description->MembersListCount = 1;
+    if (dataLength < fullSize) return HRESULT_FROM_WIN32(ERROR_MORE_DATA);
+
+    auto* members = reinterpret_cast<PKSPROPERTY_MEMBERSHEADER>(description + 1);
+    members->MembersFlags = KSPROPERTY_MEMBER_STEPPEDRANGES;
+    members->MembersSize = sizeof(KSPROPERTY_STEPPING_LONG);
+    members->MembersCount = 1;
+    members->Flags = 0;
+    auto* range = reinterpret_cast<PKSPROPERTY_STEPPING_LONG>(members + 1);
+    range->SteppingDelta = static_cast<ULONG>(step > 0 ? step : 1);
+    range->Reserved = 0;
+    range->Bounds.SignedMinimum = minimum;
+    range->Bounds.SignedMaximum = maximum;
+    return S_OK;
+}
+
+inline PropertyPayload GetCustomPayload(PropertyId id) noexcept {
+    auto& s = Global();
+    PropertyPayload p{};
+    auto writable = [&p](LONG value, LONG minimum, LONG maximum, LONG step = 1) {
+        p.value=value; p.minimum=minimum; p.maximum=maximum; p.step=step; p.flags=1;
+    };
+    auto readOnly = [&p](LONG value) { p.value=value; p.minimum=value; p.maximum=value; p.step=0; p.flags=0; };
+    switch (id) {
+        case PropertyId::AutoFraming: writable(s.autoFraming.load(),0,1); p.flags |= s.autoFraming.load() ? 2u : 0u; break;
+        case PropertyId::FaceTracking: writable(s.faceTracking.load(),0,1); break;
+        case PropertyId::TrackingSpeed: writable(s.trackingSpeed.load(),1,100); break;
+        case PropertyId::DeadZonePercent: writable(s.deadZonePercent.load(),4,35); break;
+        case PropertyId::TargetMode: writable(s.targetMode.load(),0,2); break;
+        case PropertyId::LedMode: readOnly(static_cast<LONG>(LedMode::Auto)); break;
+        case PropertyId::AutoCenter: writable(s.autoCenter.load(),0,1); break;
+        case PropertyId::DigitalZoomLimitPercent: writable(s.digitalZoomLimitPercent.load(),100,200); break;
+        case PropertyId::FaceCount: readOnly(s.faceCount.load()); break;
+        case PropertyId::AccelerometerX: readOnly(s.accelX.load()); break;
+        case PropertyId::AccelerometerY: readOnly(s.accelY.load()); break;
+        case PropertyId::AccelerometerZ: readOnly(s.accelZ.load()); break;
+        case PropertyId::MotorTransport: readOnly(s.motorTransport.load()); break;
+        case PropertyId::EngineOnline: readOnly(s.engineOnline.load()); break;
+        case PropertyId::LastControlHresult: readOnly(s.lastControlHresult.load()); break;
+        case PropertyId::TiltStabilization: writable(s.tiltStabilization.load(),0,1); break;
+        case PropertyId::StabilizationStrength: writable(s.stabilizationStrength.load(),1,100); break;
+        case PropertyId::StabilizationCorrectionTenths: readOnly(s.stabilizationCorrectionTenths.load()); break;
+        default: break;
+    }
+    return p;
+}
+
+inline HRESULT SetCustomPayload(PropertyId id, LONG value) noexcept {
+    auto& s = Global();
+    switch (id) {
+        case PropertyId::AutoFraming: s.autoFraming.store(ClampLong(value,0,1)); return S_OK;
+        case PropertyId::FaceTracking: s.faceTracking.store(ClampLong(value,0,1)); return S_OK;
+        case PropertyId::TrackingSpeed: s.trackingSpeed.store(ClampLong(value,1,100)); return S_OK;
+        case PropertyId::DeadZonePercent: s.deadZonePercent.store(ClampLong(value,4,35)); return S_OK;
+        case PropertyId::TargetMode: s.targetMode.store(ClampLong(value,0,2)); return S_OK;
+        case PropertyId::AutoCenter: s.autoCenter.store(ClampLong(value,0,1)); return S_OK;
+        case PropertyId::DigitalZoomLimitPercent: s.digitalZoomLimitPercent.store(ClampLong(value,100,200)); return S_OK;
+        case PropertyId::TiltStabilization: s.tiltStabilization.store(ClampLong(value,0,1)); return S_OK;
+        case PropertyId::StabilizationStrength: s.stabilizationStrength.store(ClampLong(value,1,100)); return S_OK;
+        default: return E_ACCESSDENIED;
+    }
+}
+
+// Returns ERROR_SET_NOT_FOUND when the property belongs to the upstream sample
+// or to another property set so SimpleMediaSource can continue normal dispatch.
+inline HRESULT HandleKsProperty(PKSPROPERTY property, ULONG propertyLength,
+                                LPVOID data, ULONG dataLength, ULONG* bytesReturned) noexcept {
+    if (!property || propertyLength < sizeof(KSPROPERTY)) return E_INVALIDARG;
+    if (!bytesReturned) return E_POINTER;
+
+    if (IsEqualGUID(property->Set, PROPSETID_VIDCAP_CAMERACONTROL) && IsStandardPtzId(property->Id)) {
+        LONG minimum=0, maximum=0, step=1;
+        StandardRange(property->Id, minimum, maximum, step);
+        if (property->Flags & KSPROPERTY_TYPE_BASICSUPPORT)
+            return BasicSupportLong(data,dataLength,bytesReturned,minimum,maximum,step,true);
+        auto* descriptor = propertyLength >= sizeof(KSPROPERTY_CAMERACONTROL_S)
+            ? reinterpret_cast<PKSPROPERTY_CAMERACONTROL_S>(property) : nullptr;
+        if (property->Flags & KSPROPERTY_TYPE_SET) {
+            LONG incoming = 0;
+            if (descriptor) incoming = descriptor->Value;
+            else if (data && dataLength >= sizeof(LONG)) incoming = *static_cast<LONG*>(data);
+            else { *bytesReturned=sizeof(LONG); return HRESULT_FROM_WIN32(ERROR_INSUFFICIENT_BUFFER); }
+            SetStandardValue(property->Id,incoming);
+            if (descriptor) {
+                descriptor->Value=GetStandardValue(property->Id);
+                descriptor->Flags=KSPROPERTY_CAMERACONTROL_FLAGS_MANUAL;
+                descriptor->Capabilities=KSPROPERTY_CAMERACONTROL_FLAGS_MANUAL;
+            }
+            *bytesReturned=0;
+            return S_OK;
+        }
+        if (property->Flags & KSPROPERTY_TYPE_GET) {
+            if (!data || dataLength < sizeof(LONG)) {
+                *bytesReturned=sizeof(LONG);
+                return dataLength==0 ? HRESULT_FROM_WIN32(ERROR_MORE_DATA) : HRESULT_FROM_WIN32(ERROR_INSUFFICIENT_BUFFER);
+            }
+            LONG current=GetStandardValue(property->Id);
+            *static_cast<LONG*>(data)=current;
+            if (descriptor) {
+                descriptor->Value=current;
+                descriptor->Flags=KSPROPERTY_CAMERACONTROL_FLAGS_MANUAL;
+                descriptor->Capabilities=KSPROPERTY_CAMERACONTROL_FLAGS_MANUAL;
+            }
+            *bytesReturned=sizeof(LONG);
+            return S_OK;
+        }
+        return E_INVALIDARG;
+    }
+
+    if (IsEqualGUID(property->Set, kPropertySet) && property->Id < static_cast<ULONG>(PropertyId::End)) {
+        const PropertyId id = static_cast<PropertyId>(property->Id);
+        PropertyPayload current = GetCustomPayload(id);
+        const bool writable = (current.flags & 1u) != 0;
+        if (property->Flags & KSPROPERTY_TYPE_BASICSUPPORT)
+            return BasicSupportLong(data,dataLength,bytesReturned,current.minimum,current.maximum,current.step,writable);
+        if (!data || dataLength < sizeof(PropertyPayload)) {
+            *bytesReturned=sizeof(PropertyPayload);
+            return dataLength==0 ? HRESULT_FROM_WIN32(ERROR_MORE_DATA) : HRESULT_FROM_WIN32(ERROR_INSUFFICIENT_BUFFER);
+        }
+        auto* payload = static_cast<PropertyPayload*>(data);
+        if (property->Flags & KSPROPERTY_TYPE_SET) {
+            HRESULT hr=SetCustomPayload(id,payload->value);
+            *bytesReturned=0;
+            return hr;
+        }
+        if (property->Flags & KSPROPERTY_TYPE_GET) {
+            *payload=GetCustomPayload(id);
+            *bytesReturned=sizeof(PropertyPayload);
+            return S_OK;
+        }
+        return E_INVALIDARG;
+    }
+    return HRESULT_FROM_WIN32(ERROR_SET_NOT_FOUND);
+}
+}
