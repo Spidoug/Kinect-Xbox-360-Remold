@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=SynKinect Studio
+Comment=Kinect Xbox 360 Remold Studio
+Exec=SynKinectStudio.sh
+Icon=synkinect-studio-icon
+Terminal=false
+Categories=Utility;Graphics;
+StartupWMClass=SynKinect Studio

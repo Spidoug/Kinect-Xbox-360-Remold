@@ -1,0 +1,51 @@
+; Kinect Xbox 360 Remold - Kinect 1473 runtime control transport
+; 02BB/02C3&MI_00: vendor-specific Audio Array Control interface used by the
+; 1473/K4W alternate motor/LED/accelerometer protocol after UAC firmware 01.02.709.00.
+; If Microsoft's Kinect Audio Array Control package is already STARTED on
+; WinUSB the installer keeps it. This package is only the WinUSB fallback.
+; MI_02 remains Microsoft USB Audio. 02C2 remains the inbox USB hub.
+
+[Version]
+Signature   = "$Windows NT$"
+Class       = USBDevice
+ClassGuid   = {88BAE032-5A81-49f0-BC3D-A4FF138216D6}
+Provider    = %ProviderName%
+CatalogFile = Kinect360Remold1473Control.cat
+DriverVer   = 08/29/2026,1.0.0.0
+PnpLockdown = 1
+
+[Manufacturer]
+%ProviderName% = RemoldControlModels,NTamd64.10.0...22000
+
+[RemoldControlModels.NTamd64.10.0...22000]
+%RemoldControl.DeviceDesc% = RemoldControl_Install, USB\VID_045E&PID_02BB&MI_00
+%RemoldControl.DeviceDesc% = RemoldControl_Install, USB\VID_045E&PID_02C3&MI_00
+
+[RemoldControl_Install.NT]
+Include = winusb.inf
+Needs   = WINUSB.NT
+
+[RemoldControl_Install.NT.Services]
+Include = winusb.inf
+Needs   = WINUSB.NT.Services
+
+[RemoldControl_Install.NT.HW]
+AddReg = RemoldControl.Interface,RemoldControl.Power,RemoldControl.Security
+
+[RemoldControl.Interface]
+; Microsoft Kinect Audio Array Control interface GUID. Using the same GUID
+; keeps the broker compatible with either Microsoft's WinUSB package or this
+; fallback package without rebinding an already healthy MI_00 devnode.
+HKR,,DeviceInterfaceGUIDs,0x00010000,"{F9DBE212-F689-4FDF-A75D-532E951FBD0A}"
+
+[RemoldControl.Power]
+HKR,,DeviceIdleEnabled,0x00010001,0
+HKR,,DefaultIdleState,0x00010001,0
+HKR,,SystemWakeEnabled,0x00010001,0
+
+[RemoldControl.Security]
+HKR,,Security,,"D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;GRGW;;;AU)"
+
+[Strings]
+ProviderName = "Douglas Santana (@spidoug)"
+RemoldControl.DeviceDesc = "Xbox NUI Audio Array Control - Remold (UAC runtime)"

@@ -1,0 +1,14 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations"><ProjectConfiguration Include="Release|x64"><Configuration>Release</Configuration><Platform>x64</Platform></ProjectConfiguration></ItemGroup>
+  <PropertyGroup Label="Globals"><ProjectGuid>{E47C6DF8-599C-46E4-A722-402835C1A119}</ProjectGuid><Keyword>Win32Proj</Keyword><RootNamespace>Kinect360RemoldSetup</RootNamespace><VCProjectVersion>18.0</VCProjectVersion><WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion><RemoldPlatformToolset Condition="'$(RemoldPlatformToolset)'==''">v145</RemoldPlatformToolset></PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props"/>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration"><ConfigurationType>Application</ConfigurationType><UseDebugLibraries>false</UseDebugLibraries><CharacterSet>Unicode</CharacterSet><PlatformToolset>$(RemoldPlatformToolset)</PlatformToolset></PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile><AdditionalIncludeDirectories>$(ProjectDir)..\..\components\device\shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories><RuntimeLibrary>MultiThreaded</RuntimeLibrary><WarningLevel>Level4</WarningLevel><SDLCheck>true</SDLCheck><ConformanceMode>true</ConformanceMode><LanguageStandard>stdcpp17</LanguageStandard></ClCompile>
+    <Link><SubSystem>Console</SubSystem><AdditionalDependencies>setupapi.lib;newdev.lib;cfgmgr32.lib;%(AdditionalDependencies)</AdditionalDependencies></Link>
+  </ItemDefinitionGroup>
+  <ItemGroup><ClCompile Include="Kinect360RemoldSetup.cpp"/></ItemGroup>
+  <ItemGroup><ClInclude Include="..\..\components\device\shared\Kinect360RemoldHardwareProfile.h"/></ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
+</Project>
