@@ -10,7 +10,6 @@ This directory contains the engineering documentation behind the public project 
 - [Architecture](ARCHITECTURE.md) — cross-platform runtime structure and ownership rules.
 - [3D Scanner quality](SCANNER-QUALITY.md) — reconstruction pipeline, benchmarks and limitations.
 - [Native driver builds](BUILD-DRIVERS.md) — toolchains, outputs and packaging.
-- [Project audit](PROJECT-AUDIT.md) — clean-source repository audit.
 
 ## Windows
 
