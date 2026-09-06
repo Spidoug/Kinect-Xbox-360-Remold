@@ -105,13 +105,3 @@ To require the complete hardware compile:
 ```bash
 ./drivers/linux/VERIFY-V1.sh --require-hardware-build
 ```
-
-## Source release validation
-
-Run:
-
-```bash
-./scripts/VERIFY-SOURCE-RELEASE.sh
-```
-
-This check rejects committed native driver binaries/packages, generated driver output directories, generated Studio payloads, and non-V1 singleton/Surveillance text contracts.
