@@ -186,7 +186,6 @@ Generated trees such as `applications/binaries/`, `drivers/windows/binaries/`, `
 | [UAC audio runtime](docs/windows/UAC-AUDIO-RUNTIME.md) | 1414/1473 UAC + WASAPI audio path |
 | [3D Scanner quality](docs/SCANNER-QUALITY.md) | Reconstruction pipeline and limitations |
 | [Native builds](docs/BUILD-DRIVERS.md) | Toolchains, generated outputs and package builds |
-| [Contributing](CONTRIBUTING.md) | Source policy and contribution rules |
 
 ## Source release validation
 
