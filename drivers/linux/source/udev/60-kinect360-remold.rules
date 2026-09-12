@@ -1,8 +1,0 @@
-# Kinect for Xbox 360 / models 1414 and 1473. 02C2 is the 1473 parent hub/controller; it is detected but never used as the classic motor transport. Services own the interfaces; desktop users
-# receive access for diagnostics and direct libusb access without manual chmod.
-SUBSYSTEM=="usb", ATTR{idVendor}=="045e", ATTR{idProduct}=="02b0", MODE="0660", GROUP="video", TAG+="uaccess", TAG+="systemd", ENV{SYSTEMD_WANTS}+="kinect360-remold.target"
-SUBSYSTEM=="usb", ATTR{idVendor}=="045e", ATTR{idProduct}=="02c2", MODE="0660", GROUP="video", TAG+="uaccess", TAG+="systemd", ENV{SYSTEMD_WANTS}+="kinect360-remold.target"
-SUBSYSTEM=="usb", ATTR{idVendor}=="045e", ATTR{idProduct}=="02ae", MODE="0660", GROUP="video", TAG+="uaccess", TAG+="systemd", ENV{SYSTEMD_WANTS}+="kinect360-remold.target"
-SUBSYSTEM=="usb", ATTR{idVendor}=="045e", ATTR{idProduct}=="02ad", MODE="0660", GROUP="audio", TAG+="uaccess", TAG+="systemd", ENV{SYSTEMD_WANTS}+="kinect360-remold.target"
-SUBSYSTEM=="usb", ATTR{idVendor}=="045e", ATTR{idProduct}=="02bb", MODE="0660", GROUP="audio", TAG+="uaccess", TAG+="systemd", ENV{SYSTEMD_WANTS}+="kinect360-remold.target"
-SUBSYSTEM=="usb", ATTR{idVendor}=="045e", ATTR{idProduct}=="02c3", MODE="0660", GROUP="audio", TAG+="uaccess", TAG+="systemd", ENV{SYSTEMD_WANTS}+="kinect360-remold.target"
