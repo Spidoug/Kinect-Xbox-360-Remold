@@ -1,0 +1,83 @@
+; Kinect360RemoldCamera.inf
+; Xbox NUI Camera (02AE) uses the Microsoft inbox WinUSB function driver.
+
+[Version]
+Signature   = "$Windows NT$"
+Class       = Kinect360RemoldInternal
+ClassGuid   = {E0488A13-A670-423D-BD1B-168DDD4BD596}
+Provider    = %ProviderName%
+CatalogFile = Kinect360RemoldCamera.cat
+DriverVer   = 08/29/2026,1.0.0.0
+PnpLockdown = 1
+
+[ClassInstall32]
+AddReg = RemoldInternalClass.Registry
+
+[RemoldInternalClass.Registry]
+HKR,,,,%InternalClassName%
+HKR,,NoDisplayClass,,1
+
+[DestinationDirs]
+CameraRuntime.Copy = 13
+
+[SourceDisksNames]
+1 = %DiskName%,,,,
+
+[SourceDisksFiles]
+Kinect360RemoldCameraBridge.exe = 1,,
+
+[Manufacturer]
+%ProviderName% = RemoldCameraModels,NTamd64.10.0...22000
+
+[RemoldCameraModels.NTamd64.10.0...22000]
+%RemoldCamera.DeviceDesc% = RemoldCamera_Install, USB\VID_045E&PID_02AE
+
+[RemoldCamera_Install.NT]
+Include = winusb.inf
+Needs   = WINUSB.NT
+CopyFiles = CameraRuntime.Copy
+
+[RemoldCamera_Install.NT.Services]
+Include = winusb.inf
+Needs   = WINUSB.NT.Services
+AddService = Kinect360RemoldCameraBridge,0x00000800,Kinect360RemoldCameraBridge.Service
+
+[RemoldCamera_Install.NT.HW]
+AddReg = RemoldCamera.Interface,RemoldCamera.Power,RemoldCamera.Security
+
+[RemoldCamera.Interface]
+HKR,,DeviceInterfaceGUIDs,0x00010000,"{E05F50E4-0674-4ECF-9D63-15401B837E9B}"
+
+[RemoldCamera.Power]
+HKR,,DeviceIdleEnabled,0x00010001,0
+HKR,,DefaultIdleState,0x00010001,0
+HKR,,SystemWakeEnabled,0x00010001,0
+
+[RemoldCamera.Security]
+HKR,,Security,,"D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;GRGW;;;AU)"
+
+[Kinect360RemoldCameraBridge.Service]
+DisplayName   = %CameraBridge.DisplayName%
+Description   = %CameraBridge.Description%
+ServiceType   = 0x10
+StartType     = 0x3
+ErrorControl  = 0x1
+ServiceBinary = %13%\Kinect360RemoldCameraBridge.exe
+AddTrigger    = CameraBridge.DeviceTrigger
+
+[CameraBridge.DeviceTrigger]
+TriggerType = 1
+Action      = 1
+SubType     = %CameraTransport.InterfaceGuid%
+
+[CameraRuntime.Copy]
+Kinect360RemoldCameraBridge.exe
+
+[Strings]
+ProviderName = "Douglas Santana (@spidoug)"
+InternalClassName = "Kinect Xbox 360 Internal"
+DiskName = "Xbox NUI Camera WinUSB Driver"
+RemoldCamera.DeviceDesc = "Xbox NUI Camera"
+CameraBridge.DisplayName = "Xbox NUI Camera Service"
+CameraBridge.Description = "Owns Xbox NUI Camera through WinUSB and serves VGA RGB, RGB-HQ Bayer, IR, and Depth paths."
+CameraTransport.InterfaceGuid = "{E05F50E4-0674-4ECF-9D63-15401B837E9B}"

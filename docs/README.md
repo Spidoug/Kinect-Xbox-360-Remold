@@ -1,0 +1,35 @@
+# Kinect Xbox 360 Remold documentation
+
+This directory contains the engineering documentation behind the public project overview in the root README.
+
+## Start here
+
+- [Quick start](QUICKSTART.md) — shortest path from source tree to a running system.
+- [Installation](INSTALLATION.md) — Windows/Linux installation details.
+- [Architecture](ARCHITECTURE.md) — cross-platform runtime structure and ownership rules.
+- [Native driver builds](BUILD-DRIVERS.md) — toolchains, outputs and packaging.
+
+## Windows
+
+- [Windows architecture](windows/ARCHITECTURE.md)
+- [Windows protocol](windows/PROTOCOL.md)
+- [UAC audio runtime](windows/UAC-AUDIO-RUNTIME.md)
+- [Microphone endpoint](windows/WINDOWS-MICROPHONE-ENDPOINT.md)
+- [Microphone diagnostic](windows/MICROPHONE-DIAGNOSTIC.md)
+- [Raw sensor lifecycle](windows/RAW-SENSOR-LIFECYCLE.md)
+- [Acoustic environment scan](windows/ACOUSTIC-ENVIRONMENT-SCAN.md)
+- [IP camera runtime](windows/IP-CAMERA-RUNTIME.md)
+
+## Linux
+
+- [Driver/runtime](linux/DRIVER-RUNTIME.md)
+- [USB backend](linux/USB-BACKEND.md)
+- [Windows parity](linux/WINDOWS-PARITY.md)
+
+## Current Studio screenshots
+
+<table>
+<tr><td><img src="images/synkinect-studio-home.png" alt="Home"></td><td><img src="images/synkinect-studio-3d-scanner.png" alt="3D Scanner"></td></tr>
+<tr><td><img src="images/synkinect-studio-acoustic-scanner.png" alt="Acoustic Scanner"></td><td><img src="images/synkinect-studio-microphones.png" alt="Microphones"></td></tr>
+<tr><td><img src="images/synkinect-studio-surveillance.png" alt="Surveillance"></td><td><img src="images/synkinect-studio-interactivity.png" alt="Interactivity"></td></tr>
+</table>
